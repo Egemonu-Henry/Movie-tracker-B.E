@@ -88,6 +88,16 @@ const registerUser = async (req, res)=>{
             });
         }
 
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
+
+        if (!hasLetter || !hasNumber) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must include both letters and numbers",
+            });
+        }
+
         const usernameExist = await userModel.findOne({ username });
         if(usernameExist){
             console.log("Username already exists");
